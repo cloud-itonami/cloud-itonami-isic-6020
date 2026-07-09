@@ -1,0 +1,11 @@
+{:itonami.blueprint/id "cloud-itonami-6020"
+ :itonami.blueprint/name "Community Television Broadcasting Operations"
+ :itonami.blueprint/isic-rev5 "6020"
+ :itonami.blueprint/domain :media/television-broadcasting
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:media-plurality :public-interest-programming :content-accountability]
+ :itonami.blueprint/governor :broadcast-license-governor
+ :itonami.blueprint/robotics true
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger :phone]
+ :itonami.blueprint/optional-technologies [:optimization]
+ :itonami.blueprint/status :public-oss}
