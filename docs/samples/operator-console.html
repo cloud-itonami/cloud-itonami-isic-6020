@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>tvbroadcastops.render-html -- Broadcast License Governor operator console</title>
+<style>
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ok { color: #137a3f; }
+body { font-family: system-ui,-apple-system,sans-serif; margin: 0; color: #1a1a1a; background: #fafafa; }
+header.bar { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #fff; border-bottom: 1px solid #e5e5e5; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #f0f0f0; }
+h2 { margin-top: 0; font-size: 15px; }
+.warn { color: #b25c00; background: #fff8e1; padding: 2px 6px; border-radius: 4px; }
+main { max-width: 980px; margin: 24px auto; padding: 0 20px; }
+header.bar h1 { font-size: 18px; margin: 0; font-weight: 600; }
+.muted { color: #888; font-size: 13px; }
+.critical { color: #fff; background: #b3261e; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+.card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+.err { color: #b3261e; background: #fbe9e7; padding: 2px 6px; border-radius: 4px; }
+th { font-weight: 600; color: #555; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+header.bar .badge { margin-left: auto; font-size: 12px; color: #666; }
+code { font-size: 12px; background: #f4f4f4; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header class="bar"><h1>Broadcast License Governor -- Operator Console</h1><span class="badge">ISIC 6020 &middot; phase 3 (supervised-auto)</span></header>
+<main>
+<div class="card">
+<h2>Stations</h2>
+<table>
+<thead><tr>
+<th>station-id</th><th>call sign</th><th>name</th><th>registered?</th><th>verified?</th><th>status</th>
+</tr></thead>
+<tbody>
+<tr><td><code>station-1</code></td><td><code>KNDA-TV</code></td><td>Kanda Community Television</td><td>yes</td><td>yes</td><td class="err">governor-hold: scope-excluded</td></tr>
+<tr><td><code>station-2</code></td><td><code>TOEN-TV</code></td><td>Toen Regional Broadcasting</td><td>yes</td><td>yes</td><td class="muted">in progress</td></tr>
+<tr><td><code>station-3</code></td><td><code>SGMI-TV</code></td><td>Sugamo Independent Media (license pending)</td><td>yes</td><td><span class="critical">no</span></td><td class="err">governor-hold: station-unverified</td></tr>
+</tbody></table>
+</div>
+<div class="card">
+<h2>Committed broadcast log</h2>
+<table>
+<thead><tr>
+<th>op</th><th>station-id</th><th>value</th>
+</tr></thead>
+<tbody>
+<tr><td><code>:log-broadcast-record</code></td><td><code>station-1</code></td><td><code>{:station-id &quot;station-1&quot;, :segment &quot;evening-news&quot;, :on-air-log &quot;2026-07-16T18:00Z&quot;}</code></td></tr>
+<tr><td><code>:schedule-broadcast-operation</code></td><td><code>station-1</code></td><td><code>{:station-id &quot;station-1&quot;, :programming-block &quot;prime-time&quot;, :start &quot;2026-09-18T19:00Z&quot;}</code></td></tr>
+<tr><td><code>:coordinate-equipment-maintenance</code></td><td><code>station-1</code></td><td><code>{:station-id &quot;station-1&quot;, :equipment &quot;main-transmitter&quot;, :window &quot;2026-09-01T03:00Z&quot;}</code></td></tr>
+<tr><td><code>:flag-content-concern</code></td><td><code>station-1</code></td><td><code>{:station-id &quot;station-1&quot;, :concern &quot;possible FCC indecency-standard borderline segment&quot;, :confidence 0.9}</code></td></tr>
+</tbody></table>
+</div>
+<div class="card">
+<h2>Action gate (tvbroadcastops.phase &middot; tvbroadcastops.governor/always-escalate-ops)</h2>
+<table>
+<thead><tr>
+<th>op</th><th>phase-3 write allowed?</th><th>auto-eligible?</th><th>always escalates?</th>
+</tr></thead>
+<tbody>
+<tr><td><code>:coordinate-equipment-maintenance</code></td><td>yes</td><td><span class="ok">yes</span></td><td>no</td></tr>
+<tr><td><code>:flag-content-concern</code></td><td>yes</td><td>no</td><td><span class="critical">yes</span></td></tr>
+<tr><td><code>:log-broadcast-record</code></td><td>yes</td><td><span class="ok">yes</span></td><td>no</td></tr>
+<tr><td><code>:schedule-broadcast-operation</code></td><td>yes</td><td><span class="ok">yes</span></td><td>no</td></tr>
+</tbody></table>
+</div>
+<div class="card">
+<h2>Audit ledger</h2>
+<table>
+<thead><tr>
+<th>t</th><th>op</th><th>station-id</th><th>disposition</th><th>basis / rule</th>
+</tr></thead>
+<tbody>
+<tr><td>:committed</td><td><code>:log-broadcast-record</code></td><td><code>station-1</code></td><td class="ok">:commit</td><td>station-1</td></tr>
+<tr><td>:committed</td><td><code>:schedule-broadcast-operation</code></td><td><code>station-1</code></td><td class="ok">:commit</td><td>station-1</td></tr>
+<tr><td>:committed</td><td><code>:coordinate-equipment-maintenance</code></td><td><code>station-1</code></td><td class="ok">:commit</td><td>station-1</td></tr>
+<tr><td>:committed</td><td><code>:flag-content-concern</code></td><td><code>station-1</code></td><td class="ok">:commit</td><td>station-1</td></tr>
+<tr><td>:governor-hold</td><td><code>:log-broadcast-record</code></td><td><code>station-99</code></td><td class="err">:hold</td><td>station-unverified</td></tr>
+<tr><td>:governor-hold</td><td><code>:log-broadcast-record</code></td><td><code>station-3</code></td><td class="err">:hold</td><td>station-unverified</td></tr>
+<tr><td>:governor-hold</td><td><code>:schedule-broadcast-operation</code></td><td><code>station-1</code></td><td class="err">:hold</td><td>effect-not-propose</td></tr>
+<tr><td>:governor-hold</td><td><code>:log-broadcast-record</code></td><td><code>station-1</code></td><td class="err">:hold</td><td>scope-excluded</td></tr>
+</tbody></table>
+</div>
+</main>
+</body></html>
