@@ -4,7 +4,8 @@
   Drives the REAL actor stack (tvbroadcastops.operation -> tvbroadcastops.governor
   -> tvbroadcastops.store). No invented numbers, no timestamps, byte-identical
   across reruns."
-  (:require [clojure.string :as str]
+  (:require [jp-go-dds.skin]
+            [clojure.string :as str]
             [tvbroadcastops.store :as store]
             [tvbroadcastops.operation :as op]
             [tvbroadcastops.advisor :as advisor]
@@ -222,7 +223,9 @@ code { font-size: 12px; background: #f4f4f4; padding: 1px 4px; border-radius: 3p
    "<!doctype html>\n"
    "<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
    "<title>tvbroadcastops.render-html -- Broadcast License Governor operator console</title>\n"
-   "<style>\n" css "\n</style>\n"
+   "<style>"
+   (jp-go-dds.skin/dds+skin)
+   "</style>\n"
    "</head>\n<body>\n"
    "<header class=\"bar\"><h1>Broadcast License Governor -- Operator Console</h1>"
    "<span class=\"badge\">ISIC 6020 &middot; phase " phase/default-phase " (" (:label (get phase/phases phase/default-phase)) ")</span>"
