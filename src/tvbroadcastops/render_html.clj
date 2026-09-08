@@ -5,7 +5,7 @@
   -> tvbroadcastops.store). No invented numbers, no timestamps, byte-identical
   across reruns."
   (:require [jp-go-dds.skin]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [tvbroadcastops.store :as store]
             [tvbroadcastops.operation :as op]
             [tvbroadcastops.advisor :as advisor]
