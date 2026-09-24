@@ -1,6 +1,6 @@
 (ns tvbroadcastops.phase-test
   "Unit tests of `tvbroadcastops.phase` rollout logic."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [tvbroadcastops.phase :as phase]))
 
 (def clean-verdict {:hard? false :escalate? false})

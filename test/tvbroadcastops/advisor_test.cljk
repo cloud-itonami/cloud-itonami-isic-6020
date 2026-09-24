@@ -1,6 +1,6 @@
 (ns tvbroadcastops.advisor-test
   "Unit tests of `tvbroadcastops.advisor` proposal generation."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [tvbroadcastops.advisor :as adv]
             [tvbroadcastops.store :as store]))
 
