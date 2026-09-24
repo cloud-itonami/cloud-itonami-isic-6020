@@ -1,0 +1,35 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": for a licensed television broadcast station
+;; (ISIC 6020) robots do transmitter-tower inspection and studio /
+;; transmission-equipment maintenance, gated by the Broadcast License
+;; Governor. Physical work modelled here: a studio maintenance arm hanging a
+;; luminaire on the lighting grid, and a robotic camera pedestal repositioning
+;; a camera with prompter across the studio floor between segments.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-6020"
+ :cases
+ [{:id :luminaire-to-grid
+   :kind :manipulator
+   :procedure "studio maintenance arm lifts a replacement luminaire from the floor cart and offers it up to the lighting-grid clamp"
+   :params {:l1-m 0.90 :l2-m 0.80 :m1-kg 12.0 :m2-kg 8.0
+            :from [0.90 -0.20] :to [0.40 1.50] :duration-s 3.0 :steps 500}
+   :sweep {:param :payload-kg :values [5.0 10.0 15.0 20.0 25.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 400.0 :basis "estimate: continuous shoulder torque of a ~20 kg-payload arm class"}
+   :boundary {:lo 1.0 :hi 80.0}}
+  {:id :camera-pedestal-reposition
+   :kind :transport
+   :procedure "robotic pedestal moves a studio camera with prompter (60 kg) 12 m to its next shot position; braking swept up to an emergency stop for crew stepping into its path"
+   :params {:mass-kg 120.0 :distance-m 12.0 :v-max-mps 1.0 :a-max-mps2 0.5
+            :payload-kg 60.0 :drive-force-n 300.0 :crr 0.01
+            :cog-height-m 0.40 :support-half-length-m 0.40 :payload-cog-height-m 1.60
+            :max-time-s 600.0}
+   :sweep {:param :brake-decel-mps2 :values [0.5 1.0 1.5 2.0 2.5 3.0]}
+   :quantity :min-tipover-margin
+   :limit {:min 0.6 :basis "estimate: keep 60 % of the static margin on a pedestal carrying a top-heavy camera with prompter near crew"}
+   :boundary {:lo 0.3 :hi 4.0}}]}
